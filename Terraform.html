@@ -1,0 +1,141 @@
+<h2 id="o-que-é-infraestrutura-como-código">Primeiramente, uma breve descrição sobre o que é "Infraestrutura como Código" ?</h2>
+Infraestrutura como Código, <em>Infra as Code, </em>ou simplesmente <strong>IaC</strong>, é tratar a <strong>infra como um software</strong>, desenvolvendo, versionando, testando, depurando e colocando em produção, utilizando de ferramentas que lhe permitem declarar ou ordenar (imperativa) a infraestrutura, desde recursos em nuvens até a configuração do servidor web que está respondendo a requisição do seu navegador.
+
+Este conceito de infraestrutura está muito ligado ao <a href="https://www.4linux.com.br/suporte/consultoria-devops"><strong>DevOps</strong></a> e <strong>SRE</strong>, pois aproximou o mindset do Dev para o SysAdmin que até então automatizava tudo com scripts.
+
+As vantagens estão muito ligadas a facilidade e agilidade das coisas, não existem mais janelas gigantescas para fazer o provisionamento e configuração de ambiente, o código que produzido é auto documentado, reproduzível, portátil e <a href="https://www.4linux.com.br/suporte/consultoria-Docker-Git-Jenkins-Puppet-Ansible">ágil</a>.
+<h2></h2>
+<h2 id="o-que-é-o-terraform">Então, onde entra o Terraform?</h2>
+O Terraform é uma ferramenta open source de <strong>orquestração de infraestrutura</strong>, com uma arquitetura modular baseada em plugins, escrito em Golang, assim como boa parte das ferramentas que o cercam e segue a filosofia UNIX (faça uma coisa e faça bem).
+
+O Terraform abstrai e simplifica a <strong>automação da infraestrutura em nuvem</strong>, transformando a interação com os <em>cloud providers</em> em uma linguagem declarativa próxima a humana, tornando o processo de provisionamento e gerenciamento de infra reproduzível, seguro e previsível.
+
+O workflow do Terraform consegue unir o Dev e o Ops, pois controla, rastreia, documenta e automatiza a infraestrutura, demonstra a importância do git flow e com isso da oportunidade aos Devs de opinar e expor as necessidades deles para Ops, removendo barreiras entre os times e suas atividades. <strong>DevOps</strong> no sentido mais literal possível.
+<h3 id="extensões">Extensões</h3>
+Como tudo nesse maravilhoso <a href="https://www.4linux.com.br/consultoria"><strong>mundo open source</strong></a>, o Terraform possui diversas “extensões”, ferramentas que trabalham ao redor do seu ecossistema, estendendo ou melhorando a utilização do mesmo.
+
+Separei alguns exemplos interessantes:
+<ul>
+ 	<li><a href="https://github.com/gruntwork-io/terragrunt">Terragrunt:</a>, pequeno wrapper que ajuda no desenvolvimento de modulos, evitando repetição de código e dando a possibilidade de paralelismo na execução dos mesmos.</li>
+ 	<li><a href="https://github.com/runatlantis/atlantis">Atlantis:</a> permite uma integração ainda maior com o git, permitindo <code>terraform plan</code> e <code>terraform apply</code> de dentro do merge request.</li>
+ 	<li><a href="https://github.com/adammck/terraform-inventory">Terraform-inventory:</a> gera um inventario dinâmico do Ansible a partir de um state do Terraform.</li>
+ 	<li><a href="https://github.com/GoogleCloudPlatform/terraformer">Terraformer:</a> gera o código de uma infra já existente.</li>
+ 	<li><a href="https://github.com/liamg/tfsec">tfsec:</a> análise de segurança da infraestrutura.</li>
+</ul>
+&nbsp;
+<h3 id="alternativas-no-mercado">Alternativas no mercado</h3>
+Existem outras ferramentas que também fazem o trabalho ou parte, do Terraform, uma lista não exaustiva delas separadas por categoria é:
+<ul>
+ 	<li><strong>Configuration Management:</strong>
+<ul>
+ 	<li>Ansible</li>
+ 	<li>Puppet</li>
+ 	<li>Chef</li>
+ 	<li>Saltstack</li>
+</ul>
+</li>
+ 	<li><strong>Cloud Provider:</strong>
+<ul>
+ 	<li>AWS CloudFormation</li>
+ 	<li>Google Cloud Deployment Manager</li>
+ 	<li>Azure Resource Manager</li>
+</ul>
+</li>
+ 	<li><strong>Orchestration:</strong>
+<ul>
+ 	<li>Pulumi</li>
+ 	<li>Gyro</li>
+ 	<li>Cloudify</li>
+</ul>
+</li>
+</ul>
+E por último, seria utilizar as bibliotecas disponíveis ou chamadas de API REST do cloud provider desejado. Das ferramentas citadas, o <strong>Terraform</strong> sem dúvida é o mais desenvolvido delas.
+
+As ferramentas de <strong>gerenciamento de configuração</strong> conseguem fazer parte do trabalho e inclusive podem até ser melhor vistas, afinal, você tem 2-em-1, provisionando <em>e</em> configurando seu ambiente ao mesmo tempo, porém, essas ferramentas falham em alguns pontos, por não ter módulos para desempenhar determinadas funções, comportamentos imprevisíveis e etc, geralmente para manter uma infra utilizando elas é necessário desenvolver scripts ou outros meios manuais para lidar com os problemas que aparecem durante o caminho.
+
+Se você usa <em>apenas</em> uma cloud, utilizar a ferramenta de provisionamento do seu cloud provider pode ser uma boa ideia, mas tem um contra ponto grande, o <em>vendor lock-in</em>, num <strong>ambiente multi-cloud</strong> isso se torna um pouco mais problemático, pois será necessário investir tempo aprendendo X ferramentas distintas.
+
+&nbsp;
+<h2 id="ansible-x-terraform">Ansible x Terraform</h2>
+Um ponto que é muito questionado nas comunidades, dentro da <a href="https://www.4linux.com.br/cursos">salas de aulas</a> da 4Linux e com certeza dentro das empresas é sobre qual dessas duas ferramentas utilizar.
+<h3>Faremos então uma comparação rápida...</h3>
+Dentro das ferramentas de gerenciamento de configuração o <a href="https://www.4linux.com.br/curso/devops"><strong>Ansible</strong></a> se destaca pela <strong>simplicidade, quantidade de módulos e documentação</strong>, ele também é muito usado para fazer o trabalho do Terraform, e consegue lidar até bem com isso, porém, quando você tem um caso de uso um pouco mais complexo, ou precisa impor um controle maior nessa infra, o Ansible não irá conseguir suprir seus requisitos.
+
+Há claras diferenças na arquitetura ( e objetivos) da duas ferramentas, o que logicamente leva a comportamentos diferentes, por exemplo, o <a href="https://www.4linux.com.br/curso/devops"><strong>Ansible</strong></a> foi projetado para na maior parte dos casos utilizar uma <strong>sintaxe</strong> <strong>imperativa,</strong> diferente do <a href="https://blog.4linux.com.br/introducao-ao-terraform/"><strong>Terraform</strong></a> que utiliza uma <strong>sintaxe declarativa</strong> com o propósito de declarar recursos. Uma vantagem implícita do Terraform sobre o Ansible é o Go, é natural durante o desenvolvimento no Ansible algum módulo quebrar durante um <em>minor update</em> do <a href="https://www.4linux.com.br/cursos/python">Python</a>, especialmente no caso da <strong>GCP</strong> (devido a interação entre o Ansible e <em>Magic Modules</em> da Google), como o Go não teve uma mudança que quebre a compatibilidade com versões anteriores isso é bem mais difícil acontecer com o Terraform e de brinde você não esquenta a cabeça com as dependências do <a href="https://www.4linux.com.br/cursos/python"><strong>Python</strong></a>.
+
+Por outro lado, é possível obter uma das melhores experiências de mercado na questão de automatização quando se tem o Terraform e o Ansible trabalhando em conjunto, sendo respectivamente, o Terraform orquestrando o ambiente e o Ansible gerindo as configurações das máquinas.
+
+&nbsp;
+<h3 id="registry">Registry</h3>
+Parecido com o DockerHub, no Terraform temos o <strong>Registry</strong>, cuja função é ser um repositório de módulos e <em>providers</em> do Terraform, sendo o berço para <em>providers</em> de pequenos provedores cloud, assim se tornando uma fonte extremamente útil de código para reutilização no seu projeto.
+
+No Terraform é possível tanto utilizar o Registry, que é publico, quanto o Terraform Cloud e ter uma solução privada para tal. Também é possível plugar módulos de qualquer VCS suportado pelo Terraform.
+
+É fácil encontrar módulos também no <strong>Github</strong>, com uma simples <a href="https://github.com/search?q=terraform+modulos">busca</a> é possível encontrar módulos prontos para deploy.
+
+<img title="Terraform flow" src="https://www.terraform.io/assets/images/terraform-overview/cli-howitworks-2x-0b1a3eb0.png" />
+<h2 id="terraform-cloud-terraform-enterprise">Terraform Cloud &amp; Terraform Enterprise</h2>
+<img title="Fluxo do Terraform Cloud" src="https://www.datocms-assets.com/2885/1540272460-terraform-remote-plans-and-appliesv1.png?fit=max&amp;fm=png&amp;q=80&amp;w=1500" />
+
+O <strong>Terraform Cloud</strong> é basicamente uma Web UI com todo o workflow do Terraform integrado em único lugar, ele é uma versão cloud do <strong>Terraform Enterprise</strong> (solução paga e selfhosted), ela unifica o trabalho relacionada ao Terraform, provendo uma interface única para a interação do time, devido a forte integração com o git, possibilitando um fluxo de <a href="https://www.4linux.com.br/consultoria/integracao-e-entrega-continua-cicd"><strong>CI/CD</strong></a>.
+
+Um grande ponto a respeito do Terraform Cloud/Enterprise é a possibilidade de uso do <strong>Sentinel</strong>, um framework para aplicação de compliance as code, onde você consegue aplicar “testes” a sua infraestrutura, garantindo sua infra e mitigando riscos de problemas futuros.
+
+&nbsp;
+<h3 id="mitos">Mitos</h3>
+Dois mitos que valem a pena discutir antes de adotar a ferramenta:
+<ul>
+ 	<li>
+<h3>Vou escrever minha infra como código e nunca mais vou precisar tocar nele!</h3>
+</li>
+</ul>
+A menos que você não vá utilizar esse código é claro, de outro modo, assim como qualquer software, seu código vai precisar de manutenção, hora por uma mudança interna do cloud provider (API), hora pela evolução do Terraform, hora por melhorias. Exemplo disso foi a mudança do Terraform 0.11 para o Terraform 0.12, onde o time do Terraform utilizou o <a href="https://www.4linux.com.br/consultoria/suporte-rocket-chat-open-source">feedback</a> da comunidade para melhorar o HCL, essa mudança necessitou da refatoração de códigos existentes, e a Hashicorp deu uma ajudinha ao prover ferramentas para automatizar a refatoração dessa mudança.
+<ul>
+ 	<li>
+<h3>O Terraform é <em>cloud agnostic</em>!</h3>
+</li>
+</ul>
+O Terraform <strong>não</strong> é <em>cloud agnostic</em>, todo o código que você escrever vai servir somente para aquele <em>cloud provider</em>, ainda assim, a sintaxe é a mesma em todo o seu ecossistema. O Terraform é um meio-campo entre você construir a sua infraestrutura através dos painéis dos <em>cloud providers</em> ou utilizar as libs/APIs REST e ter que lidar com toda a lógica envolvida no projeto. Logo a implementação depende somente da API que o <em>cloud provide</em>r expõe.
+
+&nbsp;
+<h3>Pontos negativos</h3>
+O Terraform é uma excelente ferramenta, mas assim como tudo na vida, ela tem seus pontos negativos...
+<ul>
+ 	<li id="state">
+<h3>State</h3>
+</li>
+</ul>
+O state é o arquivo json que contêm todas informações da infraestrutura gerenciada pelo Terraform. Problemas comuns durante o trabalho com ele são o <em>locking</em> do estado do arquivo e os <em>secrets</em> contidos nele.
+
+Como é um arquivo que possui informação de toda infraestrutura é natural que contenha informações sensíveis a cerca da mesma, isso pode ser ou não um problema para quem for utilizar dependendo friamente da escolha de backend utilizado para guardar o state. Quando se trabalha em equipe é relativamente fácil corromper o state, dependendo do flow do desenvolvimento e do backend utilizado, quando o state se corrompe perde-se controle da infraestrutura já implantada.
+<ul>
+ 	<li id="import">
+<h3>Import</h3>
+</li>
+</ul>
+Importar uma infraestrutura existente para ser gerenciada pelo Terraform pode ser uma tarefa árdua, especialmente com a limitação na funcionalidade do mesmo (no momento), o <em>import</em> do Terraform apenas sabe da existência da sua infraestrutura, ele ainda não vai estar controlando ela, e esse pequeno equívoco pode levar a grandes problemas, pois ele não tem o código que a cria, afetando a imutabilidade da infra e consequentemente levando a passos imprevisíveis.
+<ul>
+ 	<li id="dry">
+<h3>DRY</h3>
+</li>
+</ul>
+Escrever código repetido é extremamente comum no Terraform devido a sintaxe declarativa, é por isso que soluções como o <em>Terragrunt</em> e o <em>Pulumi</em> (que utiliza parte do Terraform por debaixo dos panos) existem.
+<ul>
+ 	<li id="api-breaks">
+<h3>API Breaks</h3>
+</li>
+</ul>
+Devido a constante evolução do Terraform é comum ter que refatorar o código num curto período de tempo para adequar as novas versões.
+
+&nbsp;
+<h2 id="conclusão">Conclusão</h2>
+Em resumo, o <strong>Terraform é no momento, a melhor solução para provisionamento de recursos</strong> a ser utilizadas, a abstração que ele permite é na quantidade certa, não simplificando as coisas demais e perdendo controle e nem complicando de mais sendo complexo e inchado, seu workflow é simples e consistente, a comunidade é ativa e o projeto está em evolução contínua.
+
+Num ambiente de infra como código, o trio <strong>Packer</strong>, <strong>Terraform</strong> e <strong>Ansible</strong> (ou o gerenciador de configurações de sua preferência) brilha e facilita muito a vida.
+
+Se você se interessou pelo Terraform, sugiro fortemente que leia sua <strong><a href="https://www.terraform.io/docs/index.html">documentação</a></strong> e também o excelente <strong><a href="https://learn.hashicorp.com/terraform">Learn Hashicorp</a></strong>, para testá-lo sugiro também usar uma conta <em>Free Tier</em> da <strong>AWS</strong>, <strong>GCP</strong> ou<strong> Azure</strong>, caso já tenha os utilizado, uma opção barata, porém, com menos recursos, é a <strong>Digital Ocean</strong>, todos esses possuem <em>providers</em> do Terraform oficiais e mantidos pelos respectivos <em>cloud providers</em>. Caso precise de ajuda a <a href="https://www.terraform.io/community.html">comunidade</a> sempre está disposta a ajudar, IRC, Gitter e o Fórum estão sempre de portas abertas.
+
+Se você deseja conhecimento do que o Terraform faz por debaixo dos panos sugiro fortemente a leitura do <a href="https://www.terraform.io/docs/internals/index.html">Internal</a> na documentação do Terraform, ela é clara e objetiva, uma olhada no <a href="https://github.com/hashicorp/terraform">core</a> do Terraform também não faz mal, especialmente pra ficar a par dos possíveis bugs, vai ajudar bastante a entender o porque do seu comportamento.
+
+<img class="aligncenter" title="Por hoje é so pessoal!" src="https://3.bp.blogspot.com/-3o66FY0sxww/V1K73uQaskI/AAAAAAAAQZI/KkegqDYpz7QkZzBCW9oetqNgEW-klFrHgCLcB/s1600/folks.jpg" width="530" height="298" />
+
